@@ -9,7 +9,8 @@ from pynput import mouse, keyboard
 # Configuración de URLs permitidas y bloqueadas
 allowed_urls = [
     "https://dev.new.expensify.com:8082/",
-    "https://app.slack.com/client/E03025Z7DT4/C07KY1LMXEF"
+    "https://app.slack.com/client/E03025Z7DT4/C07KY1LMXEF",
+    "https://feather.openai.com/campaigns/a63becfe-faa1-4eb7-8439-12e5fc54f4e6?tab=tasks&tasks-tab=in_progress"
 ]
 blocked_urls = ["https://www.youtube.com/"]
 
@@ -18,6 +19,11 @@ inactivity_timeout = 20  # 20 segundos
 
 # Variables globales para la detección de inactividad
 last_activity_time = time.time()
+
+# Función para obtener el último tiempo de actividad
+def get_last_activity_time():
+    global last_activity_time
+    return last_activity_time
 
 # Funciones para actualizar el tiempo de la última actividad
 def on_mouse_move(x, y):
@@ -118,7 +124,7 @@ def move_mouse_in_url():
         active_url = get_active_tab_url()
 
         # Verifica si ha habido inactividad suficiente
-        if (current_time - last_activity_time > inactivity_timeout):
+        if (current_time - get_last_activity_time() > inactivity_timeout):
             # Si la URL actual no es permitida, intenta cambiar a una permitida
             if active_url not in allowed_urls or active_url in blocked_urls:
                 if not switch_to_allowed_url():
