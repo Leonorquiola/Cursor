@@ -15,7 +15,7 @@ allowed_urls = [
 blocked_urls = ["https://www.youtube.com/"]
 
 # Tiempo de inactividad (en segundos) antes de mover el mouse
-inactivity_timeout = 20  # 20 segundos
+inactivity_timeout = 7  # 7 segundos
 
 # Variables globales para la detección de inactividad
 last_activity_time = time.time()
@@ -104,14 +104,33 @@ def switch_to_allowed_url():
     print("No se encontraron pestañas con URLs permitidas.")
     return False
 
-# Función para mover el mouse en un rango aleatorio
-def move_mouse_randomly():
+# Nueva función para mover el mouse de manera natural y con una trayectoria curva
+def move_mouse_naturally():
     """
-    Mueve el mouse de forma aleatoria en un pequeño rango para simular actividad.
+    Mueve el mouse en una trayectoria suave y curva para simular un movimiento más natural.
     """
-    x_offset = random.randint(-20, 20)
-    y_offset = random.randint(-20, 20)
-    pyautogui.moveRel(x_offset, y_offset)
+    # Coordenadas actuales del mouse
+    start_x, start_y = pyautogui.position()
+    # Coordenada de destino con un rango aleatorio
+    end_x = start_x + random.randint(-100, 100)
+    end_y = start_y + random.randint(-100, 100)
+
+    # Duración del movimiento, ajustada para que sea relativamente lenta
+    duration = random.uniform(0.5, 1.5)
+    steps = int(duration * 100)  # Número de pasos para que el movimiento sea fluido
+    
+    # Interpolación entre puntos para crear una curva suave
+    for i in range(steps):
+        # Interpolación lineal con una pequeña variación para simular curvas
+        t = i / steps
+        x = int((1 - t) * start_x + t * end_x + random.uniform(-5, 5))
+        y = int((1 - t) * start_y + t * end_y + random.uniform(-5, 5))
+        
+        # Mueve el mouse en el punto interpolado
+        pyautogui.moveTo(x, y)
+        time.sleep(0.01)  # Pausa pequeña entre cada paso para simular suavidad
+
+    print(f"Movimiento simulado a ({end_x}, {end_y})")
 
 # Función principal para verificar inactividad y mover el mouse
 def move_mouse_in_url():
@@ -130,8 +149,8 @@ def move_mouse_in_url():
                 if not switch_to_allowed_url():
                     print("Esperando una pestaña permitida...")
             else:
-                # Si estamos en una URL permitida, mueve el mouse
-                move_mouse_randomly()
+                # Si estamos en una URL permitida, mueve el mouse de forma natural
+                move_mouse_naturally()
                 print(f"Moviendo el mouse en la URL: {active_url}")
                 last_activity_time = current_time  # Resetea el tiempo de inactividad después del movimiento
         else:
