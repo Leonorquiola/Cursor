@@ -10,7 +10,7 @@ from pynput import mouse, keyboard
 allowed_urls = [
     "https://dev.new.expensify.com:8082/",
     "https://app.slack.com/client/E03025Z7DT4/C07KY1LMXEF",
-    "https://feather.openai.com/campaigns/a63becfe-faa1-4eb7-8439-12e5fc54f4e6?tab=tasks&tasks-tab=in_progress"
+    "https://feather.openai.com/tasks/79a27c6a-b4a0-46c9-a549-db624cf37592"
 ]
 blocked_urls = ["https://www.youtube.com/"]
 
@@ -107,30 +107,29 @@ def switch_to_allowed_url():
 # Nueva función para mover el mouse de manera natural y con una trayectoria curva
 def move_mouse_naturally():
     """
-    Mueve el mouse en una trayectoria suave y curva para simular un movimiento más natural.
+    Mueve el mouse en una trayectoria suave y curva para simular un movimiento más natural
+    y aumentar el tiempo de movimiento.
     """
-    # Coordenadas actuales del mouse
     start_x, start_y = pyautogui.position()
-    # Coordenada de destino con un rango aleatorio
-    end_x = start_x + random.randint(-100, 100)
-    end_y = start_y + random.randint(-100, 100)
-
-    # Duración del movimiento, ajustada para que sea relativamente lenta
-    duration = random.uniform(0.5, 1.5)
-    steps = int(duration * 100)  # Número de pasos para que el movimiento sea fluido
     
-    # Interpolación entre puntos para crear una curva suave
+    # Rango mayor de movimiento
+    end_x = start_x + random.randint(-400, 400)  # Incrementa el rango para mayor desplazamiento
+    end_y = start_y + random.randint(-400, 400)
+
+    # Aumenta la duración del movimiento
+    duration = random.uniform(2.0, 4.0)  # Movimiento más prolongado entre 2 a 4 segundos
+    steps = int(duration * 100)  # Más pasos para un movimiento más lento y prolongado
+    
     for i in range(steps):
-        # Interpolación lineal con una pequeña variación para simular curvas
         t = i / steps
-        x = int((1 - t) * start_x + t * end_x + random.uniform(-5, 5))
-        y = int((1 - t) * start_y + t * end_y + random.uniform(-5, 5))
+        x = int((1 - t) * start_x + t * end_x + random.uniform(-20, 20))
+        y = int((1 - t) * start_y + t * end_y + random.uniform(-20, 20))
         
-        # Mueve el mouse en el punto interpolado
         pyautogui.moveTo(x, y)
-        time.sleep(0.01)  # Pausa pequeña entre cada paso para simular suavidad
+        time.sleep(0.01)  # Pausa de 0.01 para un movimiento más lento
 
     print(f"Movimiento simulado a ({end_x}, {end_y})")
+
 
 # Función principal para verificar inactividad y mover el mouse
 def move_mouse_in_url():
