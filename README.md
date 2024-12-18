@@ -43,9 +43,9 @@ pip3 install pyautogui requests pynput
 4. Habilitar el modo de depuración remota en Chrome
 Para que el script funcione, necesitas iniciar Google Chrome en modo de depuración remota. Cierra todas las ventanas de Chrome y luego abre una nueva ventana usando el siguiente comando en la terminal:
 
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9223
 
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --profile-directory="Profile 13"
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9223 --profile-directory="Profile 13"
 
 Este comando habilita un servidor de depuración en el puerto 9222, al cual el script se conectará para obtener las URLs de las pestañas abiertas.
 

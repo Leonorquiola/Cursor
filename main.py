@@ -10,7 +10,16 @@ from pynput import mouse, keyboard
 allowed_urls = [
     "https://dev.new.expensify.com:8082/",
     "https://app.slack.com/client/E03025Z7DT4/C07KY1LMXEF",
-    "https://feather.openai.com/tasks/79a27c6a-b4a0-46c9-a549-db624cf37592"
+    "https://github.com/Expensify/App/issues/41523",
+    "https://feather.openai.com/tasks/b95ac7cb-4379-40b7-9fb5-263af53b5acc",
+    "https://tms.turing.com/tasks/",
+    "https://github.com/Expensify/App/issues/45779",
+    "https://feather.openai.com/tasks/c4931534-85c7-472a-b9d5-aacd733dba00",
+    "https://feather.openai.com/campaigns/a63becfe-faa1-4eb7-8439-12e5fc54f4e6?tab=tasks&tasks-tab=reviews&review-params=%7B%22campaignId%22%3A%22a63becfe-faa1-4eb7-8439-12e5fc54f4e6%22%7D",
+    "https://feather.openai.com/tasks/60ca2014-170c-4981-bf8d-f67c6d9ae1b2"
+
+
+
 ]
 blocked_urls = ["https://www.youtube.com/"]
 
@@ -52,7 +61,7 @@ def get_active_tab_url():
     Obtiene la URL de la pestaña activa de Google Chrome usando la API de depuración remota.
     """
     try:
-        response = requests.get('http://localhost:9222/json')
+        response = requests.get('http://localhost:9223/json')
         tabs = json.loads(response.text)
         for tab in tabs:
             if tab.get("type") == "page" and tab.get("url"):
@@ -67,7 +76,7 @@ def get_all_tab_urls():
     Devuelve una lista de URLs de todas las pestañas abiertas en Google Chrome.
     """
     try:
-        response = requests.get('http://localhost:9222/json')
+        response = requests.get('http://localhost:9223/json')
         tabs = json.loads(response.text)
         return [tab.get("url") for tab in tabs if tab.get("type") == "page" and tab.get("url")]
     except Exception as e:
